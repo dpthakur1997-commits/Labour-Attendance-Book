@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>Labour Attendance Book</title>
+
+<style>
+body{
+  font-family:Arial;
+  background:#f2f2f2;
+  margin:0;
+  padding:10px;
+}
+.app{
+  background:#fff;
+  padding:10px;
+  border-radius:8px;
+  overflow-x:auto;
+}
+input,select,button{
+  padding:6px;
+  margin:4px 0;
+  width:100%;
+}
+button{
+  background:#007bff;
+  color:#fff;
+  border:none;
+  border-radius:4px;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+}
+th,td{
+  border:1px solid #ccc;
+  padding:5px;
+  font-size:12px;
+  text-align:center;
+}
+.att{
+  font-weight:bold;
+  cursor:pointer;
+}
+.delete{
+  color:red;
+  cursor:pointer;
+}
+.small{
+  font-size:10px;
+  color:#444;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<h3>Labour Attendance Book</h3>
+
+<label>Agency Name</label>
+<input type="text" id="agency">
+
+<label>Week Start Date (Wednesday)</label>
+<input type="date" id="startDate">
+<button onclick="setWeek()">Set Week</button>
+
+<hr>
+
+<label>Labour Name</label>
+<input type="text" id="lname">
+
+<label>Daily Rate</label>
+<input type="number" id="rate">
+
+<label>Mobile Number</label>
+<input type="number" id="mobile">
+
+<button onclick="addLabour()">Add Labour</button>
+
+<table id="table">
+<thead>
+<tr>
+<th>No</th>
+<th>Name</th>
+<th>Wed</th>
+<th>Thu</th>
+<th>Fri</th>
+<th>Sat</th>
+<th>Sun</th>
+<th>Mon</th>
+<th>Tue</th>
+<th>Total</th>
+<th>Rate</th>
+<th>Payment</th>
+<th>Mobile</th>
+<th>Del</th>
+</tr>
+<tr id="dateRow" class="small">
+<td></td><td>Date</td>
+<td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
+<td colspan="5"></td>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+</div>
+
+<script>
+function setWeek(){
+ let d=new Date(document.getElementById("startDate").value);
+ if(!d) return alert("Select date");
+
+ let days=["Wed","Thu","Fri","Sat","Sun","Mon","Tue"];
+ let row=document.getElementById("dateRow");
+ row.innerHTML="<td></td><td>Date</td>";
+
+ for(let i=0;i<7;i++){
+   let nd=new Date(d);
+   nd.setDate(d.getDate()+i);
+   let txt=nd.getDate()+"/"+(nd.getMonth()+1)+" ("+days[i]+")";
+   row.innerHTML+="<td>"+txt+"</td>";
+ }
+ row.innerHTML+="<td colspan='5'></td>";
+}
+
+function addLabour(){
+ let name=lname.value;
+ let rateVal=rate.value;
+ let mob=mobile.value;
+
+ if(name==="") return alert("Labour name likhiye");
+
+ let tb=document.querySelector("#table tbody");
+ let tr=tb.insertRow();
+
+ tr.insertCell(0).innerText=tb.rows.length;
+ tr.insertCell(1).innerText=name;
+
+ for(let i=0;i<7;i++){
+   let td=tr.insertCell();
+   td.innerText="A";
+   td.className="att";
+   td.onclick=function(){toggle(td,tr)};
+ }
+
+ tr.insertCell(9).innerText="0";
+ tr.insertCell(10).innerText=rateVal;
+ tr.insertCell(11).innerText="0";
+ tr.insertCell(12).innerText=mob;
+ tr.insertCell(13).innerHTML="<span class='delete' onclick='this.parentNode.parentNode.remove()'>X</span>";
+
+ lname.value=rate.value=mobile.value="";
+}
+
+function toggle(td,row){
+ td.innerText = td.innerText==="A" ? "P" : td.innerText==="P" ? "H" : "A";
+ calculate(row);
+}
+
+function calculate(row){
+ let total=0;
+ for(let i=2;i<=8;i++){
+   if(row.cells[i].innerText==="P") total+=1;
+   if(row.cells[i].innerText==="H") total+=0.5;
+ }
+ row.cells[9].innerText=total;
+ let rate=row.cells[10].innerText || 0;
+ row.cells[11].innerText=total*rate;
+}
+</script>
+
+</body>
+</html>
