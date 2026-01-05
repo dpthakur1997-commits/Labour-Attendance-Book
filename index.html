@@ -217,6 +217,10 @@ function calculate(row){
     window.auth
   );
 
+window.verifyOTP = function () {
+  const otp = document.getElementById("otp").value;
+
+  confirmationResult.confirm(otp)
   .then(() => {
   alert("Login Successful");
 
