@@ -4,6 +4,26 @@
 <meta charset="UTF-8">
 <title>Labour Attendance Book</title>
 
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBMefDCOVCQJG-Bb_3xsx1K9CaM6t67Y90",
+    authDomain: "labour-attendance-f339b.firebaseapp.com",
+    projectId: "labour-attendance-f339b",
+    storageBucket: "labour-attendance-f339b.firebasestorage.app",
+    messagingSenderId: "703875059048",
+    appId: "1:703875059048:web:009434296b8885d9c69add"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+</script>
+
 <style>
 body{
   font-family:Arial;
@@ -171,6 +191,41 @@ function calculate(row){
  let rate=row.cells[10].innerText || 0;
  row.cells[11].innerText=total*rate;
 }
+</script>
+<div id="recaptcha-container"></div>
+
+<input id="mobile" placeholder="Mobile Number" />
+<button onclick="sendOTP()">Send OTP</button>
+
+<input id="otp" placeholder="Enter OTP" />
+<button onclick="verifyOTP()">Verify OTP</button>
+
+<script type="module">
+  import { RecaptchaVerifier, signInWithPhoneNumber } 
+  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  window.recaptchaVerifier = new RecaptchaVerifier(
+    'recaptcha-container',
+    { size: 'invisible' },
+    window.auth
+  );
+
+  window.sendOTP = function () {
+    const phone = document.getElementById("mobile").value;
+    signInWithPhoneNumber(window.auth, "+91" + phone, window.recaptchaVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        alert("OTP भेज दिया गया");
+      })
+      .catch((error) => alert(error.message));
+  };
+
+  window.verifyOTP = function () {
+    const otp = document.getElementById("otp").value;
+    confirmationResult.confirm(otp)
+      .then(() => alert("Login Successful"))
+      .catch(() => alert("गलत OTP"));
+  };
 </script>
 
 </body>
