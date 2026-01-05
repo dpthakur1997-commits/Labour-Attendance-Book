@@ -77,7 +77,8 @@ th,td{
 <body>
 
 <div id="attendanceApp" style="display:none;">
-  <div class="app">
+  <div id="attendanceApp" class="app" style="display:none;">
+  ... पूरा attendance code ...
 </div>
 </div>
 
@@ -196,16 +197,15 @@ function calculate(row){
  row.cells[11].innerText=total*rate;
 }
 </script>
-<div id="loginBox">
 
+ <div id="loginBox">
   <div id="recaptcha-container"></div>
 
-  <input id="mobile" placeholder="Mobile Number" />
+  <input id="mobile" placeholder="Mobile Number">
   <button onclick="sendOTP()">Send OTP</button>
 
-  <input id="otp" placeholder="Enter OTP" />
+  <input id="otp" placeholder="Enter OTP">
   <button onclick="verifyOTP()">Verify OTP</button>
-
 </div>
 <script type="module">
   import { RecaptchaVerifier, signInWithPhoneNumber } 
