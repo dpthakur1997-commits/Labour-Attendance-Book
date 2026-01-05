@@ -132,7 +132,8 @@ th,td{
 <script>
 function setWeek(){
  let d=new Date(document.getElementById("startDate").value);
- if(!d) return alert("Select date");
+ if(!document.getElementById("startDate").value)
+  return alert("Select date");
 
  let days=["Wed","Thu","Fri","Sat","Sun","Mon","Tue"];
  let row=document.getElementById("dateRow");
