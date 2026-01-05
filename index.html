@@ -217,31 +217,12 @@ function calculate(row){
     window.auth
   );
 
-  window.sendOTP = function () {
-    const phone = document.getElementById("mobile").value;
-    signInWithPhoneNumber(window.auth, "+91" + phone, window.recaptchaVerifier)
-      .then((confirmationResult) => {
-        window.confirmationResult = confirmationResult;
-        alert("OTP भेज दिया गया");
-      })
-      .catch((error) => alert(error.message));
-  };
+  .then(() => {
+  alert("Login Successful");
 
-  window.verifyOTP = function () {
- const otp = document.getElementById("otp").value;
-
- confirmationResult.confirm(otp)
- .then(() => {
   document.getElementById("loginBox").style.display = "none";
   document.getElementById("attendanceApp").style.display = "block";
 })
-
-   document.getElementById("loginBox").style.display = "none";
-   document.getElementById("attendanceApp").style.display = "block";
- })
- .catch(() => alert("गलत OTP"));
-};
-</script>
-
+.catch(() => alert("गलत OTP"));
 </body>
 </html>
