@@ -76,7 +76,10 @@ th,td{
 
 <body>
 
-<div class="app">
+<div id="attendanceApp" style="display:none;">
+  <div class="app">
+</div>
+</div>
 
 <h3>Labour Attendance Book</h3>
 
@@ -193,14 +196,17 @@ function calculate(row){
  row.cells[11].innerText=total*rate;
 }
 </script>
-<div id="recaptcha-container"></div>
+<div id="loginBox">
 
-<input id="mobile" placeholder="Mobile Number" />
-<button onclick="sendOTP()">Send OTP</button>
+  <div id="recaptcha-container"></div>
 
-<input id="otp" placeholder="Enter OTP" />
-<button onclick="verifyOTP()">Verify OTP</button>
+  <input id="mobile" placeholder="Mobile Number" />
+  <button onclick="sendOTP()">Send OTP</button>
 
+  <input id="otp" placeholder="Enter OTP" />
+  <button onclick="verifyOTP()">Verify OTP</button>
+
+</div>
 <script type="module">
   import { RecaptchaVerifier, signInWithPhoneNumber } 
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -222,11 +228,19 @@ function calculate(row){
   };
 
   window.verifyOTP = function () {
-    const otp = document.getElementById("otp").value;
-    confirmationResult.confirm(otp)
-      .then(() => alert("Login Successful"))
-      .catch(() => alert("गलत OTP"));
-  };
+ const otp = document.getElementById("otp").value;
+
+ confirmationResult.confirm(otp)
+ .then(() => {
+  document.getElementById("loginBox").style.display = "none";
+  document.getElementById("attendanceApp").style.display = "block";
+})
+
+   document.getElementById("loginBox").style.display = "none";
+   document.getElementById("attendanceApp").style.display = "block";
+ })
+ .catch(() => alert("गलत OTP"));
+};
 </script>
 
 </body>
